@@ -17,7 +17,7 @@ export function DBookCard({ book }: BookCardProps) {
             />
           </div>
           <div className="absolute bottom-2 left-2 bg-orange-400 text-white px-2 py-1 rounded text-sm font-semibold">
-            $ {book.unitPrice.toFixed(2)}
+            $ {book.unitPrice}
           </div>
           <Button
             size="sm"

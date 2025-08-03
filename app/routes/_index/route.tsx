@@ -3,6 +3,8 @@ import type { Route } from ".react-router/types/app/routes/_index/+types/route";
 import { PaginationControl } from "~/components/common/pagination-control";
 import { useBooks } from "~/features/books/api";
 import { BookGrid } from "~/routes/_index/components/book-grid";
+import { useCategoriesStore } from "~/features/categories/store";
+import { useBooksStore } from "~/features/books/store";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,12 +17,18 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const activeCategory = useCategoriesStore((state) => state.activeCategory);
+  const searchKeyword = useBooksStore((state) => state.searchKeyword);
+
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = Number(searchParams.get("limit")) || 10;
 
   const { data: books, isLoading } = useBooks({
     page: currentPage,
     limit: itemsPerPage,
+    ...(activeCategory !== "All Categories" &&
+      activeCategory != null && { category: activeCategory }),
+    ...(searchKeyword && { search: searchKeyword }),
   });
 
   const handlePageChange = (page: number) => {
@@ -54,13 +62,13 @@ export default function Home() {
   }
 
   return (
-    <>
+    <section>
       <BookGrid books={books.data} />
       <PaginationControl
         pagination={books.pagination}
         onPageChange={handlePageChange}
         onItemsPerPageChange={handleItemsPerPageChange}
       />
-    </>
+    </section>
   );
 }
