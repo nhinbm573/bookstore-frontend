@@ -113,6 +113,7 @@ export function Header() {
               <DropdownMenu
                 open={isDropdownOpen}
                 onOpenChange={setIsDropdownOpen}
+                data-slot="header-dropdown-menu"
               >
                 <DropdownMenuTrigger asChild>
                   <Menu className="w-5 h-5 text-white cursor-pointer" />

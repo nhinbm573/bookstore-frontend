@@ -6,34 +6,52 @@ import { renderStars } from "~/utils/rating";
 
 export function DBookCard({ book }: BookCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow py-0">
+    <Card
+      className="overflow-hidden hover:shadow-lg transition-shadow py-0"
+      data-slot="book-card"
+    >
       <CardContent className="p-0">
         <div className="relative">
-          <div className="h-48 overflow-hidden">
+          <div className="h-48 overflow-hidden" data-slot="book-card-image">
             <img
               src={book.photoPath}
               alt={book.title}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="absolute bottom-2 left-2 bg-orange-400 text-white px-2 py-1 rounded text-sm font-semibold">
+          <div
+            className="absolute bottom-2 left-2 bg-orange-400 text-white px-2 py-1 rounded text-sm font-semibold"
+            data-slot="book-card-price"
+          >
             $ {book.unitPrice}
           </div>
           <Button
             size="sm"
             className="absolute bottom-2 right-2 bg-orange-400 hover:bg-orange-500 text-white p-2"
+            data-slot="book-card-add-to-cart"
           >
             <ShoppingCart className="w-4 h-4" />
           </Button>
         </div>
         <div className="p-3">
-          <h4 className="font-medium text-sm text-sky-600 mb-1 truncate">
+          <h4
+            className="font-medium text-sm text-sky-600 mb-1 truncate"
+            data-slot="book-card-title"
+          >
             {book.title}
           </h4>
-          <p className="text-xs text-gray-600 mb-2">{book.authorName}</p>
-          <div className="flex items-center gap-1">
+          <p
+            className="text-xs text-gray-600 mb-2"
+            data-slot="book-card-author-name"
+          >
+            {book.authorName}
+          </p>
+          <div className="flex items-center gap-1" data-slot="book-card-rating">
             {renderStars(book.totalRatingValue, book.totalRatingCount)}
-            <span className="text-xs text-gray-500 ml-1">
+            <span
+              className="text-xs text-gray-500 ml-1"
+              data-slot="book-card-rating-count"
+            >
               ({book.totalRatingCount})
             </span>
           </div>
