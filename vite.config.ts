@@ -7,7 +7,19 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   optimizeDeps: {
-    include: ["@tanstack/react-query", "@tanstack/react-query-devtools"],
+    include: [
+      "@tanstack/react-query",
+      "@tanstack/react-query-devtools",
+      "lucide-react",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-select",
+      "zustand",
+      "clsx",
+      "tailwind-merge",
+      "axios",
+    ],
   },
   server: {
     fs: {
