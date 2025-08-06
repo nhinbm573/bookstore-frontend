@@ -63,7 +63,6 @@ export function Header() {
                 onValueChange={(value) =>
                   onCategoryClick(value, navigate, searchParams.toString())
                 }
-                data-slot="header-category-select"
               >
                 <SelectTrigger className="w-36 bg-white">
                   <SelectValue />
@@ -113,7 +112,6 @@ export function Header() {
               <DropdownMenu
                 open={isDropdownOpen}
                 onOpenChange={setIsDropdownOpen}
-                data-slot="header-dropdown-menu"
               >
                 <DropdownMenuTrigger asChild>
                   <Menu className="w-5 h-5 text-white cursor-pointer" />

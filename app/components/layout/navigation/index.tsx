@@ -39,6 +39,7 @@ export function Navigation({ onClose }: NavigationProps) {
       align="start"
       sideOffset={12}
       style={{ width: "100vw" }}
+      data-slot="navigation-dropdown-content"
     >
       {isMobile && (
         <div className="p-4 border-b border-sky-400">
@@ -60,6 +61,7 @@ export function Navigation({ onClose }: NavigationProps) {
 
         <div className="space-y-3 md:grid md:grid-cols-4">
           <button
+            data-slot="navigation-all-categories-button"
             onClick={() => {
               onCategoryClick(
                 "All Categories",
@@ -80,6 +82,7 @@ export function Navigation({ onClose }: NavigationProps) {
             categories.map((category) => (
               <button
                 key={category.id}
+                data-slot={`navigation-category-${category.name}`}
                 onClick={() => {
                   onCategoryClick(
                     category.name,

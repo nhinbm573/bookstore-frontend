@@ -85,6 +85,7 @@ export function PaginationControl({
             return (
               <Button
                 key={page}
+                data-slot={`select-page-button-${page}`}
                 variant={pagination.currentPage === page ? "default" : "ghost"}
                 size="sm"
                 className={
