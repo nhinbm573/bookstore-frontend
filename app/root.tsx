@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Header } from "~/components/layout/header";
 import { Sidebar } from "~/components/layout/sidebar";
 import { useScreenSize } from "hooks/use-screen-size";
+import { Toaster } from "./components/ui/sonner";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -61,6 +62,7 @@ export default function App() {
         </div>
       </main>
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
 }

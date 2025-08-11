@@ -6,8 +6,15 @@ import { formSchema } from "../../schema";
 import { FormInputField } from "~/components/common/form-input-field";
 import { BirthdayInputField } from "../birthday-input-field";
 import { Button } from "~/components/ui/button";
+import { useSignUp } from "~/features/auth/api";
+import { useSignupStore } from "~/features/signup/store";
 
 export function SignupForm() {
+  const handleSignupSuccess = useSignupStore(
+    (state) => state.handleSignUpSuccess,
+  );
+  const signupMutation = useSignUp();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
@@ -23,8 +30,26 @@ export function SignupForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const {
+    formState: { isValid, isDirty },
+  } = form;
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await signupMutation.mutateAsync({
+        email: values.email,
+        password: values.password,
+        phone: values.phone,
+        fullName: values.fullName,
+        birthDay: values.birthDay,
+        birthMonth: values.birthMonth,
+        birthYear: values.birthYear,
+      });
+
+      handleSignupSuccess({ email: values.email, fullName: values.fullName });
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
   }
 
   return (
@@ -69,9 +94,10 @@ export function SignupForm() {
         <BirthdayInputField control={form.control} />
         <Button
           type="submit"
-          className="w-full bg-orange-400 hover:bg-orange-500 text-white py-2"
+          className="w-full bg-orange-400 hover:bg-orange-500 text-white py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!isValid || !isDirty || signupMutation.isPending}
         >
-          Sign Up
+          {signupMutation.isPending ? "Signing up..." : "Sign Up"}
         </Button>
       </form>
     </Form>

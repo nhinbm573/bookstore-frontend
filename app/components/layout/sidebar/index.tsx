@@ -75,6 +75,7 @@ export function Sidebar() {
             </div>
             <div
               className="text-sky-500 px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+              onClick={() => navigate("/signup")}
               data-slot="sidebar-sign-up"
             >
               Sign up

@@ -32,6 +32,8 @@ export default defineConfig(() => {
         "clsx",
         "tailwind-merge",
         "axios",
+        "next-themes",
+        "sonner",
       ],
     },
     server: {

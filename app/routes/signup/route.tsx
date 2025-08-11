@@ -7,8 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { useDialogsStore } from "~/features/dialogs/store";
+import { useSignupStore } from "~/features/signup/store";
 import { SignupForm } from "./components/signup-form";
+import { AccountActivation } from "./components/account-activation";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,15 +21,28 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function SignUp() {
-  const isOpen = useDialogsStore((state) => state.signUpOpen);
-  const onClose = useDialogsStore((state) => state.onChangeSignUpOpen);
+  const isOpen = useSignupStore((state) => state.signUpOpen);
+  const showActivation = useSignupStore((state) => state.showActivation);
+  const resetSignUpState = useSignupStore((state) => state.resetSignUpState);
+
+  const navigate = useNavigate();
+
+  const onClose = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    return () => {
+      resetSignUpState();
+    };
+  }, [resetSignUpState]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden rounded-none sm:rounded-lg [&>button]:hidden">
         <DialogHeader className="bg-sky-300 p-4 flex flex-row items-center justify-between">
           <DialogTitle className="text-white text-xl font-bold">
-            SIGN UP
+            {showActivation ? "ACCOUNT ACTIVATION" : "SIGN UP"}
           </DialogTitle>
           <Button
             variant="ghost"
@@ -36,7 +52,7 @@ export default function SignUp() {
             <X className="w-6 h-6 text-white" />
           </Button>
         </DialogHeader>
-        <SignupForm />
+        {showActivation ? <AccountActivation /> : <SignupForm />}
       </DialogContent>
     </Dialog>
   );

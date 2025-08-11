@@ -17,7 +17,7 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
         searchParams || window.location.search,
       );
       params.set("page", "1");
-      navigate(`?${params.toString()}`);
+      navigate(`/?${params.toString()}`);
     }
     set({ activeCategory: category });
   },

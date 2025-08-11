@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router";
+import { Outlet, useNavigate, useSearchParams } from "react-router";
 import type { Route } from ".react-router/types/app/routes/_index/+types/route";
 import { PaginationControl } from "~/components/common/pagination-control";
 import { useBooks } from "~/features/books/api";
@@ -69,6 +69,7 @@ export default function Home() {
         onPageChange={handlePageChange}
         onItemsPerPageChange={handleItemsPerPageChange}
       />
+      <Outlet />
     </section>
   );
 }
