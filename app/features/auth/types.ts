@@ -17,3 +17,13 @@ export interface AuthError {
   message: string;
   errors?: Record<string, string[]>;
 }
+
+export interface ActivationRequest {
+  uidb64: string;
+  token: string;
+}
+
+export interface ActivationResponse {
+  message: string;
+  status: number;
+}
