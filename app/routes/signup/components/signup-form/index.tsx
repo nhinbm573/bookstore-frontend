@@ -8,6 +8,7 @@ import { BirthdayInputField } from "../birthday-input-field";
 import { Button } from "~/components/ui/button";
 import { useSignUp } from "~/features/auth/api";
 import { useSignupStore } from "~/features/signup/store";
+import { formatSignupErrors } from "~/features/auth/signup-error-formatter";
 
 export function SignupForm() {
   const handleSignupSuccess = useSignupStore(
@@ -32,6 +33,7 @@ export function SignupForm() {
 
   const {
     formState: { isValid, isDirty },
+    setError,
   } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -48,7 +50,19 @@ export function SignupForm() {
 
       handleSignupSuccess({ email: values.email, fullName: values.fullName });
     } catch (error) {
-      console.error("Signup error:", error);
+      const formattedError = formatSignupErrors(error);
+      for (const [field, message] of Object.entries(
+        formattedError.fieldErrors,
+      )) {
+        if (field === "birthday") {
+          setError("birthDay", { message });
+        } else if (
+          form.getValues(field as keyof z.infer<typeof formSchema>) !==
+          undefined
+        ) {
+          setError(field as keyof z.infer<typeof formSchema>, { message });
+        }
+      }
     }
   }
 
