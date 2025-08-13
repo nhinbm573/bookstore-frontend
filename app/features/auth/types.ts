@@ -76,3 +76,8 @@ export interface RefreshTokenResponse {
 export interface GoogleSigninRequest {
   credential: string;
 }
+
+export interface SignoutResponse {
+  message: string;
+  status: number;
+}

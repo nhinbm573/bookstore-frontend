@@ -1,4 +1,4 @@
-import { publicApiClient, authApiClient } from "apiClient";
+import { publicApiClient, authApiClient, privateApiClient } from "apiClient";
 import type {
   SignupRequest,
   SignupResponse,
@@ -8,6 +8,7 @@ import type {
   SigninResponse,
   RefreshTokenResponse,
   GoogleSigninRequest,
+  SignoutResponse,
 } from "./types";
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
@@ -60,5 +61,11 @@ export const googleSignin = async (
       credential: data.credential,
     },
   );
+  return response.data;
+};
+
+export const signout = async (): Promise<SignoutResponse> => {
+  const response =
+    await privateApiClient.post<SignoutResponse>("/accounts/logout/");
   return response.data;
 };

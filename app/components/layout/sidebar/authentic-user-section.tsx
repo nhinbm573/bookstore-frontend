@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router";
 import { useAuthStore } from "~/features/auth/store";
 import { PROFILE_DROPDOWN_CONTENT } from "~/constants";
+import { useProfileActions } from "~/features/auth/hooks/use-profile-actions";
 
 export function AuthenticUserSection() {
   const account = useAuthStore((state) => state.account);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { handleItemClick, isSigningOut } = useProfileActions();
 
   const navigate = useNavigate();
 
@@ -20,14 +22,16 @@ export function AuthenticUserSection() {
         {PROFILE_DROPDOWN_CONTENT.map((item) => (
           <div
             key={item.id}
-            className="text-sky-500 px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
-            onClick={() => {
-              if (item.href) {
-                navigate(item.href);
-              }
-            }}
+            className={`text-sky-500 px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer ${
+              item.id === "logout" && isSigningOut
+                ? "opacity-50 pointer-events-none"
+                : ""
+            }`}
+            onClick={() => handleItemClick(item)}
           >
-            {item.label}
+            {item.id === "logout" && isSigningOut
+              ? "Signing out..."
+              : item.label}
           </div>
         ))}
       </div>

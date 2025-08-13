@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { signin, signup, googleSignin } from "./services";
+import { signin, signup, googleSignin, signout } from "./services";
 import type {
   SigninError,
   SigninRequest,
@@ -69,6 +69,25 @@ export const useGoogleSignIn = () => {
       setAuth(response.data.access, response.data.account);
       setCaptchaRequired(false);
       useSigninStore.getState().setCaptchaToken(null);
+    },
+  });
+};
+
+export const useSignOut = () => {
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  return useMutation({
+    mutationFn: () => signout(),
+    onError: (error: AxiosError) => {
+      if (error.response && error.response.data) {
+        toast.error("Signout failed. Please try again.");
+      } else {
+        toast.error("An error occurred during signout.");
+      }
+    },
+    onSuccess: () => {
+      clearAuth();
+      toast.success("You have been signed out successfully.");
     },
   });
 };
