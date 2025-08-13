@@ -36,6 +36,7 @@ export default defineConfig(() => {
         "next-themes",
         "sonner",
         "react-google-recaptcha",
+        "zustand/middleware",
       ],
     },
     server: {
