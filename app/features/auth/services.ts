@@ -7,6 +7,7 @@ import type {
   SigninRequest,
   SigninResponse,
   RefreshTokenResponse,
+  GoogleSigninRequest,
 } from "./types";
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
@@ -47,5 +48,17 @@ export const signin = async (data: SigninRequest): Promise<SigninResponse> => {
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   const response =
     await authApiClient.post<RefreshTokenResponse>("/accounts/refresh/");
+  return response.data;
+};
+
+export const googleSignin = async (
+  data: GoogleSigninRequest,
+): Promise<SigninResponse> => {
+  const response = await publicApiClient.post<SigninResponse>(
+    "/accounts/google/",
+    {
+      credential: data.credential,
+    },
+  );
   return response.data;
 };

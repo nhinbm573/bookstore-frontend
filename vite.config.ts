@@ -37,6 +37,7 @@ export default defineConfig(() => {
         "sonner",
         "react-google-recaptcha",
         "zustand/middleware",
+        "@react-oauth/google",
       ],
     },
     server: {

@@ -1,5 +1,5 @@
 import { useScreenSize } from "hooks/use-screen-size";
-import { Badge, BookOpen, Menu, ShoppingCart } from "lucide-react";
+import { Badge, BookOpen, Menu, ShoppingCart, User } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { Navigation } from "~/components/layout/navigation";
@@ -19,14 +19,18 @@ import {
 import { useBooksStore } from "~/features/books/store";
 import { useCategories } from "~/features/categories/api";
 import { useCategoriesStore } from "~/features/categories/store";
+import { useAuthStore } from "~/features/auth/store";
+import { ProfileDropdown } from "./sections/profile-dropdown";
 
 export function Header() {
   const { isDesktop, isTablet, isMobile } = useScreenSize();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [search, setSearch] = useState("");
   const { data: categories } = useCategories();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const activeCategory = useCategoriesStore((state) => state.activeCategory);
   const onCategoryClick = useCategoriesStore((state) => state.onChangeCategory);
@@ -121,16 +125,27 @@ export function Header() {
             </>
           )}
           {isTablet && <div className="w-px h-6 bg-white/30"></div>}
-          {!isMobile && (
-            <Button
-              variant="ghost"
-              className="text-white hover:bg-sky-400 px-2 lg:px-4"
-              data-slot="header-sign-in"
-              onClick={() => navigate("/signin")}
-            >
-              SIGN IN
-            </Button>
-          )}
+          {!isMobile &&
+            (isAuthenticated ? (
+              <DropdownMenu
+                open={isProfileOpen}
+                onOpenChange={setIsProfileOpen}
+              >
+                <DropdownMenuTrigger asChild>
+                  <User className="w-5 h-5 text-white cursor-pointer" />
+                </DropdownMenuTrigger>
+                <ProfileDropdown />
+              </DropdownMenu>
+            ) : (
+              <Button
+                variant="ghost"
+                className="text-white hover:bg-sky-400 px-2 lg:px-4"
+                data-slot="header-sign-in"
+                onClick={() => navigate("/signin")}
+              >
+                SIGN IN
+              </Button>
+            ))}
         </div>
       </div>
     </header>

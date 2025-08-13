@@ -7,14 +7,20 @@ import { formSchema } from "../../schema";
 import { Button } from "~/components/ui/button";
 import { useNavigate } from "react-router";
 import { Separator } from "~/components/ui/separator";
-import { useSignIn } from "~/features/auth/api";
+import { useSignIn, useGoogleSignIn } from "~/features/auth/api";
 import { useSigninStore } from "~/features/signin/store";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useRef } from "react";
+import {
+  GoogleLogin,
+  type GoogleCredentialResponse,
+} from "@react-oauth/google";
+import { toast } from "sonner";
 
 export function SignInForm() {
   const navigate = useNavigate();
   const signInMutation = useSignIn();
+  const googleSignInMutation = useGoogleSignIn();
   const captchaRequired = useSigninStore((state) => state.captchaRequired);
   const captchaToken = useSigninStore((state) => state.captchaToken);
   const setCaptchaToken = useSigninStore((state) => state.setCaptchaToken);
@@ -46,6 +52,23 @@ export function SignInForm() {
 
   const handleCaptchaChange = (token: string | null) => {
     setCaptchaToken(token);
+  };
+
+  const handleGoogleSigninSuccess = async (
+    credentialResponse: GoogleCredentialResponse,
+  ) => {
+    if (credentialResponse.credential) {
+      await googleSignInMutation.mutateAsync({
+        credential: credentialResponse.credential,
+      });
+      navigate("/");
+    } else {
+      toast.error("Google signin failed: No credential received");
+    }
+  };
+
+  const handleGoogleSigninError = () => {
+    toast.error("Google signin failed: Unable to authenticate with Google");
   };
 
   useEffect(() => {
@@ -110,6 +133,10 @@ export function SignInForm() {
           <span className="mx-4 text-xs uppercase text-gray-500">Or</span>
           <Separator className="flex-1 bg-gray-300" />
         </div>
+        <GoogleLogin
+          onSuccess={handleGoogleSigninSuccess}
+          onError={handleGoogleSigninError}
+        />
       </form>
     </Form>
   );

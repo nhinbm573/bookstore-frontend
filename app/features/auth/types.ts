@@ -46,6 +46,7 @@ export interface SigninAccount {
   fullName: string;
   phone: string;
   birthday: string;
+  isGoogleUser?: boolean;
 }
 
 export interface SigninResponse {
@@ -68,4 +69,10 @@ export interface SigninError {
 export interface RefreshTokenResponse {
   access: string;
   account: SigninAccount;
+}
+
+// GOOGLE SIGNIN API TYPES
+
+export interface GoogleSigninRequest {
+  credential: string;
 }
