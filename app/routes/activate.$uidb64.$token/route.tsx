@@ -76,7 +76,7 @@ export default function ActivateRoute() {
             </h1>
             <p className="text-gray-600">{data.message}</p>
             <Link
-              to="/login"
+              to="/signin"
               className="inline-block mt-4 px-6 py-3 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 transition-colors"
             >
               Go to Login

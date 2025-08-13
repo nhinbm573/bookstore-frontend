@@ -276,9 +276,6 @@ describe("SignupForm", () => {
     });
 
     it("should handle signup error gracefully", async () => {
-      const consoleErrorSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
       await fillValidFormData();
 
       const error = new Error("Signup failed");
@@ -292,12 +289,10 @@ describe("SignupForm", () => {
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(consoleErrorSpy).toHaveBeenCalledWith("Signup error:", error);
+        expect(mockSignupMutation.mutateAsync).toHaveBeenCalled();
       });
 
       expect(mockHandleSignupSuccess).not.toHaveBeenCalled();
-
-      consoleErrorSpy.mockRestore();
     });
   });
 

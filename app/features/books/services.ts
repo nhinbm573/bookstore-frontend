@@ -1,4 +1,4 @@
-import { apiClient } from "apiClient";
+import { publicApiClient } from "apiClient";
 import type {
   GetBooksQueryParams,
   GetBooksResponse,
@@ -7,7 +7,7 @@ import type {
 export const getBooks = async (
   params: GetBooksQueryParams,
 ): Promise<GetBooksResponse> => {
-  const { data } = await apiClient.get<GetBooksResponse>("/books", {
+  const { data } = await publicApiClient.get<GetBooksResponse>("/books", {
     params: {
       page: params.page,
       limit: params.limit,

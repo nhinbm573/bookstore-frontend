@@ -171,7 +171,7 @@ describe("ActivateRoute", () => {
 
     it("should link to login page", () => {
       const loginLink = screen.getByRole("link", { name: "Go to Login" });
-      expect(loginLink).toHaveAttribute("href", "/login");
+      expect(loginLink).toHaveAttribute("href", "/signin");
     });
 
     it("should show success toast", async () => {

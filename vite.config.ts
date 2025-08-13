@@ -25,6 +25,7 @@ export default defineConfig(() => {
         "@radix-ui/react-select",
         "@radix-ui/react-dialog",
         "@radix-ui/react-label",
+        "@radix-ui/react-separator",
         "react-hook-form",
         "zod",
         "@hookform/resolvers/zod",
@@ -34,6 +35,7 @@ export default defineConfig(() => {
         "axios",
         "next-themes",
         "sonner",
+        "react-google-recaptcha",
       ],
     },
     server: {

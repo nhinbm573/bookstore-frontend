@@ -126,6 +126,7 @@ export function Header() {
               variant="ghost"
               className="text-white hover:bg-sky-400 px-2 lg:px-4"
               data-slot="header-sign-in"
+              onClick={() => navigate("/signin")}
             >
               SIGN IN
             </Button>
