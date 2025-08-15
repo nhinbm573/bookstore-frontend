@@ -17,11 +17,6 @@ export interface SignupResponse {
 
 // ACTIVATION API TYPES
 
-export interface AuthError {
-  message: string;
-  errors?: Record<string, string[]>;
-}
-
 export interface ActivationRequest {
   uidb64: string;
   token: string;
@@ -78,6 +73,28 @@ export interface GoogleSigninRequest {
 }
 
 export interface SignoutResponse {
+  message: string;
+  status: number;
+}
+
+// RETRIEVE PASSWORD API TYPES
+
+export interface RetrievePasswordRequest {
+  email: string;
+}
+
+export interface RetrievePasswordResponse {
+  message: string;
+  status: number;
+}
+
+export interface ResetPasswordRequest {
+  uidb64: string;
+  token: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
   message: string;
   status: number;
 }

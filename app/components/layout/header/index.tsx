@@ -1,6 +1,6 @@
 import { useScreenSize } from "hooks/use-screen-size";
 import { Badge, BookOpen, Menu, ShoppingCart, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { Navigation } from "~/components/layout/navigation";
 import { Button } from "~/components/ui/button";
@@ -27,6 +27,7 @@ export function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [mounted, setMounted] = useState(false);
   const { data: categories } = useCategories();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -45,6 +46,10 @@ export function Header() {
     }
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <header className="bg-sky-300 px-4 lg:px-6 py-3">
       <div className="flex items-center justify-between">
@@ -61,7 +66,7 @@ export function Header() {
 
         {!isMobile && (
           <div className="flex items-center gap-4" data-slot="header-center">
-            {!isTablet && (
+            {!isTablet && categories && (
               <Select
                 value={activeCategory ?? "All Categories"}
                 onValueChange={(value) =>
@@ -73,7 +78,7 @@ export function Header() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="All Categories">All Categories</SelectItem>
-                  {categories?.map((category) => (
+                  {categories.map((category) => (
                     <SelectItem key={category.id} value={category.name}>
                       {category.name}
                     </SelectItem>
@@ -81,22 +86,23 @@ export function Header() {
                 </SelectContent>
               </Select>
             )}
-
-            <div className="flex" data-slot="header-search-bar">
-              <Input
-                placeholder="Search..."
-                className="rounded-r-none border-r-0 bg-white w-80"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={handleKeyPressSearch}
-              />
-              <Button
-                className="rounded-l-none bg-sky-400 hover:bg-sky-500 text-white px-6"
-                onClick={() => onChangeSearchKeyword(search)}
-              >
-                Go
-              </Button>
-            </div>
+            {mounted && (
+              <div className="flex" data-slot="header-search-bar">
+                <Input
+                  placeholder="Search..."
+                  className="rounded-r-none border-r-0 bg-white w-80"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={handleKeyPressSearch}
+                />
+                <Button
+                  className="rounded-l-none bg-sky-400 hover:bg-sky-500 text-white px-6"
+                  onClick={() => onChangeSearchKeyword(search)}
+                >
+                  Go
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
@@ -124,7 +130,7 @@ export function Header() {
               </DropdownMenu>
             </>
           )}
-          {isTablet && <div className="w-px h-6 bg-white/30"></div>}
+          {mounted && isTablet && <div className="w-px h-6 bg-white/30"></div>}
           {!isMobile &&
             (isAuthenticated ? (
               <DropdownMenu

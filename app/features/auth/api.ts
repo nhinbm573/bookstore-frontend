@@ -1,10 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { signin, signup, googleSignin, signout } from "./services";
+import {
+  signin,
+  signup,
+  googleSignin,
+  signout,
+  retrievePassword,
+  resetPassword,
+} from "./services";
 import type {
   SigninError,
   SigninRequest,
   SignupRequest,
   GoogleSigninRequest,
+  RetrievePasswordRequest,
+  ResetPasswordRequest,
 } from "./types";
 import { toast } from "sonner";
 import { formatSignupErrors } from "./signup-error-formatter";
@@ -89,5 +98,20 @@ export const useSignOut = () => {
       clearAuth();
       toast.success("You have been signed out successfully.");
     },
+  });
+};
+
+export const useRetrievePassword = () => {
+  return useMutation({
+    mutationFn: (data: RetrievePasswordRequest) => retrievePassword(data),
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (data: ResetPasswordRequest) => resetPassword(data),
   });
 };

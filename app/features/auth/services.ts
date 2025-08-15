@@ -9,6 +9,10 @@ import type {
   RefreshTokenResponse,
   GoogleSigninRequest,
   SignoutResponse,
+  RetrievePasswordResponse,
+  RetrievePasswordRequest,
+  ResetPasswordResponse,
+  ResetPasswordRequest,
 } from "./types";
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
@@ -67,5 +71,31 @@ export const googleSignin = async (
 export const signout = async (): Promise<SignoutResponse> => {
   const response =
     await privateApiClient.post<SignoutResponse>("/accounts/logout/");
+  return response.data;
+};
+
+export const retrievePassword = async (
+  data: RetrievePasswordRequest,
+): Promise<RetrievePasswordResponse> => {
+  const response = await privateApiClient.post<RetrievePasswordResponse>(
+    "/accounts/retrieve-password/",
+    {
+      email: data.email,
+    },
+  );
+  return response.data;
+};
+
+export const resetPassword = async (
+  data: ResetPasswordRequest,
+): Promise<ResetPasswordResponse> => {
+  const response = await privateApiClient.post<ResetPasswordResponse>(
+    "/accounts/reset-password/",
+    {
+      uidb64: data.uidb64,
+      token: data.token,
+      newPassword: data.newPassword,
+    },
+  );
   return response.data;
 };

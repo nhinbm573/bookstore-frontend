@@ -5,7 +5,7 @@ import { FormInputField } from "~/components/common/form-input-field";
 import { Form } from "~/components/ui/form";
 import { formSchema } from "../../schema";
 import { Button } from "~/components/ui/button";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Separator } from "~/components/ui/separator";
 import { useSignIn, useGoogleSignIn } from "~/features/auth/api";
 import { useSigninStore } from "~/features/signin/store";
@@ -95,12 +95,10 @@ export function SignInForm() {
             type="password"
           />
         </div>
-        <Button
-          variant="link"
-          className="w-full text-center text-sm text-blue-600 hover:no-underline my-2"
-        >
-          Forgot your password?
-        </Button>
+        <div className="flex justify-center w-full my-4 text-sm text-blue-600 hover:no-underline cursor-pointer">
+          <Link to="/retrieve-password">Forgot your password?</Link>
+        </div>
+
         {captchaRequired && (
           <div className="flex justify-center mb-4 relative z-50">
             <ReCAPTCHA
@@ -136,6 +134,7 @@ export function SignInForm() {
         <GoogleLogin
           onSuccess={handleGoogleSigninSuccess}
           onError={handleGoogleSigninError}
+          data-testid="google-signin"
         />
       </form>
     </Form>
