@@ -8,7 +8,7 @@ export const PROFILE_DROPDOWN_CONTENT: TProfileDropdownContent[] = [
   {
     id: "my-profile",
     label: "My Profile",
-    href: "/",
+    href: "/profile",
   },
   {
     id: "my-past-orders",

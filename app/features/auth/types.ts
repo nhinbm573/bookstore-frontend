@@ -98,3 +98,32 @@ export interface ResetPasswordResponse {
   message: string;
   status: number;
 }
+
+export interface PersonalInfo {
+  fullName: string;
+  email: string;
+  phone: string;
+  birthday: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+// UPDATE USER API TYPES
+
+export interface UpdateUserRequest {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  birthday?: string;
+  oldPassword?: string;
+  newPassword?: string;
+}
+
+export interface UpdateUserResponse {
+  message: string;
+  status: number;
+  data?: {
+    account: SigninAccount;
+  };
+}

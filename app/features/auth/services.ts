@@ -13,6 +13,8 @@ import type {
   RetrievePasswordRequest,
   ResetPasswordResponse,
   ResetPasswordRequest,
+  UpdateUserRequest,
+  UpdateUserResponse,
 } from "./types";
 
 export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
@@ -96,6 +98,16 @@ export const resetPassword = async (
       token: data.token,
       newPassword: data.newPassword,
     },
+  );
+  return response.data;
+};
+
+export const updateUser = async (
+  data: UpdateUserRequest,
+): Promise<UpdateUserResponse> => {
+  const response = await privateApiClient.patch<UpdateUserResponse>(
+    "/accounts/me/edit/",
+    data,
   );
   return response.data;
 };

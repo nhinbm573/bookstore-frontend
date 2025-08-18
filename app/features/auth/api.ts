@@ -6,6 +6,7 @@ import {
   signout,
   retrievePassword,
   resetPassword,
+  updateUser,
 } from "./services";
 import type {
   SigninError,
@@ -14,6 +15,7 @@ import type {
   GoogleSigninRequest,
   RetrievePasswordRequest,
   ResetPasswordRequest,
+  UpdateUserRequest,
 } from "./types";
 import { toast } from "sonner";
 import { formatSignupErrors } from "./signup-error-formatter";
@@ -113,5 +115,27 @@ export const useRetrievePassword = () => {
 export const useResetPassword = () => {
   return useMutation({
     mutationFn: (data: ResetPasswordRequest) => resetPassword(data),
+  });
+};
+
+export const useUpdateUser = () => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  return useMutation({
+    mutationFn: (data: UpdateUserRequest) => updateUser(data),
+    onError: (error: AxiosError) => {
+      if (error.response && error.response.data) {
+        toast.error("Failed to update profile. Please try again.");
+      } else {
+        toast.error("An error occurred while updating your profile.");
+      }
+    },
+    onSuccess: (response) => {
+      if (response.data?.account) {
+        const currentAuth = useAuthStore.getState();
+        setAuth(currentAuth.accessToken!, response.data.account);
+      }
+      toast.success("Profile updated successfully!");
+    },
   });
 };
