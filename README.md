@@ -38,23 +38,14 @@ The React frontend will follow a feature-based architecture with clear separatio
 bookstore_frontend/
 ├── app/
 │   ├── routes/
-│   ├── components/
-│   │   ├── ui/         # Basic reusable UI components
-│   │   ├── layout/     # Page layout components
-│   │   ├── features/   # Business logic components
-│   │   ├── forms/      # Form-specific components
-│   │   └── common/     # Shared/utility components
-│   ├── hooks/
-│   ├── services/
-│   ├── stores/
-│   ├── types/
-│   ├── utils/
-│   ├── constants/
-│   ├── assets/
+│   │   └── _index_/
+│   │       ├── route.tsx   # File-based convention
+│   │       └── components/ # Manage components by each pages
 │   ├── app.css
 │   ├── root.tsx
 │   └── routes.ts
 ├── public/
+├── hooks/                  # Global hooks
 ├── .dockerignore
 ├── .gitignore
 ├── .prettierignore

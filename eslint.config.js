@@ -7,7 +7,10 @@ import tseslint from "typescript-eslint";
 import { globalIgnores } from "eslint/config";
 
 export default tseslint.config([
-  globalIgnores(["dist, build, .react-router, node_modules"]),
+  globalIgnores([
+    "dist, build, .react-router, node_modules",
+    "app/components/ui/**",
+  ]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [

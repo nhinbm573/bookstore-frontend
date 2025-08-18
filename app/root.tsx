@@ -12,6 +12,11 @@ import "./app.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import { Header } from "~/components/layout/header";
+import { Sidebar } from "~/components/layout/sidebar";
+import { useScreenSize } from "hooks/use-screen-size";
+import { Toaster } from "./components/ui/sonner";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -46,11 +51,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
+  const { isDesktop } = useScreenSize();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <Header />
+        <main className="flex h-[calc(100vh-60px)]">
+          {isDesktop && <Sidebar />}
+          <div className="flex-1 overflow-y-auto p-4 md:p-6">
+            <Outlet />
+          </div>
+        </main>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster richColors position="top-right" />
+      </GoogleOAuthProvider>
     </QueryClientProvider>
   );
 }

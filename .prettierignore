@@ -2,3 +2,4 @@ build/
 dist/
 .react-router/
 node_modules/
+app/components/ui/
